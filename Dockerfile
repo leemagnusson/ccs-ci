@@ -75,3 +75,19 @@ WORKDIR /workdir
 
 # if needed
 #ENTRYPOINT []
+
+# NOTE: need to copy or hard link files to this directory
+ARG TI_MOTOR_SDK=C2000Ware_MotorControl_SDK_3_03_00_00
+COPY $TI_MOTOR_SDK/ /ti/$TI_MOTOR_SDK/
+
+# https://software-dl.ti.com/ccs/esd/documents/ccs_projects-command-line.html
+RUN ccstudio -nosplash -application com.ti.common.core.initialize \
+    -ccs.productDiscoveryPath "/ti/$TI_MOTOR_SDK"
+
+
+
+# to run gui
+# apt install libswt-gtk-4-java
+# xhost local:docker
+# docker run -it --env="DISPLAY" --network=host leemagnusson/ccs ccstudio
+# View
